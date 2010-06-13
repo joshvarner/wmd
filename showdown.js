@@ -505,7 +505,9 @@ var _DoAnchors = function(text) {
 };
 
 var writeAnchorTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
-    if (m7 == undefined) m7 = "";
+    if (m7 === undefined) {
+        m7 = "";
+    }
     var whole_match = m1;
     var link_text   = m2;
     var link_id  = m3.toLowerCase();
@@ -519,9 +521,9 @@ var writeAnchorTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
         }
         url = "#"+link_id;
         
-        if (g_urls[link_id] != undefined) {
+        if (g_urls[link_id] !== undefined) {
             url = g_urls[link_id];
-            if (g_titles[link_id] != undefined) {
+            if (g_titles[link_id] !== undefined) {
                 title = g_titles[link_id];
             }
         }
@@ -626,9 +628,9 @@ var writeImageTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
         }
         url = "#"+link_id;
         
-        if (g_urls[link_id] != undefined) {
+        if (g_urls[link_id] !== undefined) {
             url = g_urls[link_id];
-            if (g_titles[link_id] != undefined) {
+            if (g_titles[link_id] !== undefined) {
                 title = g_titles[link_id];
             }
         }
