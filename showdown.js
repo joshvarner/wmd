@@ -395,7 +395,7 @@ var _RunSpanGamut = function(text) {
     text = _DoItalicsAndBold(text);
 
     // Do hard breaks:
-    text = text.replace(/  +\n/g," <br />\n");
+    text = text.replace(/[ ]+\n/g," <br />\n");
 
     return text;
 };
@@ -736,12 +736,12 @@ var _DoLists = function(text) {
             )
         )/g
     */
-    var whole_list = /^(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm;
+    var whole_list = /^(([ ]{0,3}([*+\-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+\-]|\d+[.])[ \t]+)))/gm;
 
     if (g_list_level) {
         text = text.replace(whole_list,function(wholeMatch,m1,m2) {
             var list = m1;
-            var list_type = (m2.search(/[*+-]/g)>-1) ? "ul" : "ol";
+            var list_type = (m2.search(/[*+\-]/g)>-1) ? "ul" : "ol";
 
             // Turn double returns into triple returns, so that we can make a
             // paragraph for the last item in a list, if necessary:
@@ -757,15 +757,15 @@ var _DoLists = function(text) {
             return result;
         });
     } else {
-        whole_list = /(\n\n|^\n?)(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/g;
+        whole_list = /(\n\n|^\n?)(([ ]{0,3}([*+\-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+\-]|\d+[.])[ \t]+)))/g;
         text = text.replace(whole_list,function(wholeMatch,m1,m2,m3) {
             var runup = m1;
             var list = m2;
 
-            var list_type = (m3.search(/[*+-]/g)>-1) ? "ul" : "ol";
+            var list_type = (m3.search(/[*+\-]/g)>-1) ? "ul" : "ol";
             // Turn double returns into triple returns, so that we can make a
             // paragraph for the last item in a list, if necessary:
-            var list = list.replace(/\n{2,}/g,"\n\n\n");
+            list = list.replace(/\n{2,}/g,"\n\n\n");
             var result = _ProcessListItems(list);
             result = runup + "<"+list_type+">\n" + result + "</"+list_type+">\n";   
             return result;
@@ -822,7 +822,7 @@ _ProcessListItems = function(list_str) {
             (?= \n* (~0 | \2 ([*+-]|\d+[.]) [ \t]+))
         /gm, function(){...});
     */
-    list_str = list_str.replace(/(\n)?(^[ \t]*)([*+-]|\d+[.])[ \t]+([^\r]+?(\n{1,2}))(?=\n*(~0|\2([*+-]|\d+[.])[ \t]+))/gm,
+    list_str = list_str.replace(/(\n)?(^[ \t]*)([*+\-]|\d+[.])[ \t]+([^\r]+?(\n{1,2}))(?=\n*(~0|\2([*+\-]|\d+[.])[ \t]+))/gm,
         function(wholeMatch,m1,m2,m3,m4){
             var item = m4;
             var leading_line = m1;
@@ -1032,7 +1032,7 @@ var _DoBlockQuotes = function(text) {
                 function(wholeMatch,m1) {
                     var pre = m1;
                     // attacklab: hack around Konqueror 3.5.4 bug:
-                    pre = pre.replace(/^  /mg,"~0");
+                    pre = pre.replace(/^[ ]{2}/mg,"~0");
                     pre = pre.replace(/~0/g,"");
                     return pre;
                 });
@@ -1148,7 +1148,7 @@ var _DoAutoLinks = function(text) {
             >
         /gi, _DoAutoLinks_callback());
     */
-    text = text.replace(/<(?:mailto:)?([-.\w]+\@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)>/gi,
+    text = text.replace(/<(?:mailto:)?([\-.\w]+\@[\-a-z0-9]+(\.[\-a-z0-9]+)*\.[a-z]+)>/gi,
         function(wholeMatch,m1) {
             return _EncodeEmailAddress( _UnescapeSpecialChars(m1) );
         }
