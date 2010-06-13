@@ -615,7 +615,9 @@ var writeImageTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
     var url     = m4;
     var title   = m7;
 
-    if (!title) title = "";
+    if (!title) {
+        title = "";
+    }
     
     if (url == "") {
         if (link_id == "") {
@@ -1256,7 +1258,9 @@ var _Detab = function(text) {
             var numSpaces = 4 - leadingText.length % 4;  // attacklab: g_tab_width
 
             // there *must* be a better way to do this:
-            for (var i=0; i<numSpaces; i++) leadingText+=" ";
+            for (var i=0; i<numSpaces; i++) {
+                leadingText += " ";
+            }
 
             return leadingText;
         }
