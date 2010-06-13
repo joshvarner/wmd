@@ -1083,8 +1083,10 @@ var _FormParagraphs = function(text) {
     end = grafsOut.length;
     for (i=0; i<end; i++) {
         // if this is a marker for an html block...
-        while (grafsOut[i].search(/~K(\d+)K/) >= 0) {
-            var blockText = g_html_blocks[RegExp.$1];
+        var results;
+        
+        while ((results = /~K(\d+)K/.exec(grafsOut[i])) !== null) {
+            var blockText = g_html_blocks[results[1]];
             blockText = blockText.replace(/\$/g,"$$$$"); // Escape any dollar signs
             grafsOut[i] = grafsOut[i].replace(/~K\d+K/,blockText);
         }
