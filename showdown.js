@@ -966,7 +966,7 @@ var _EncodeCode = function(text) {
     text = text.replace(/>/g,"&gt;");
 
     // Now, escape characters that are magic in Markdown:
-    text = escapeCharacters(text,"\*_{}[]\\",false);
+    text = escapeCharacters(text,'*_{}[]\\',false);
 
 // jj the line above breaks this:
 //---
@@ -1198,8 +1198,8 @@ var _EncodeEmailAddress = function(addr) {
             var r = Math.random();
             // roughly 10% raw, 45% hex, 45% dec
             ch =  (
-                    r > .9  ?   encode[2](ch)   :
-                    r > .45 ?   encode[1](ch)   :
+                    r > 0.9  ?   encode[2](ch)   :
+                    r > 0.45 ?   encode[1](ch)   :
                                 encode[0](ch)
                 );
         }
