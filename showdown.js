@@ -155,7 +155,7 @@ this.makeHtml = function(text) {
     return text;
 };
 
-var _StripLinkDefinitions = function(text) {
+var _StripLinkDefinitions = function(orig) {
 //
 // Strips link definitions from text, stores the URLs and titles in
 // hash references.
@@ -184,7 +184,7 @@ var _StripLinkDefinitions = function(text) {
               /gm,
               function(){...});
     */
-    var text = text.replace(/^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+)/gm,
+    var text = orig.replace(/^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+)/gm,
         function (wholeMatch,m1,m2,m3,m4) {
             m1 = m1.toLowerCase();
             g_urls[m1] = _EncodeAmpsAndAngles(m2);  // Link IDs are case-insensitive
@@ -1048,7 +1048,8 @@ var _FormParagraphs = function(text) {
 //  Params:
 //    $text - string to process with html <p> tags
 //
-
+    var i;
+    
     // Strip leading and trailing lines:
     text = text.replace(/^\n+/g,"");
     text = text.replace(/\n+$/g,"");
@@ -1060,7 +1061,7 @@ var _FormParagraphs = function(text) {
     // Wrap <p> tags.
     //
     var end = grafs.length;
-    for (var i=0; i<end; i++) {
+    for (i=0; i<end; i++) {
         var str = grafs[i];
 
         // if this is an HTML marker, copy it
@@ -1080,7 +1081,7 @@ var _FormParagraphs = function(text) {
     // Unhashify HTML blocks
     //
     end = grafsOut.length;
-    for (var i=0; i<end; i++) {
+    for (i=0; i<end; i++) {
         // if this is a marker for an html block...
         while (grafsOut[i].search(/~K(\d+)K/) >= 0) {
             var blockText = g_html_blocks[RegExp.$1];
