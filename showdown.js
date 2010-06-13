@@ -64,20 +64,21 @@
 //
 // Attacklab namespace
 //
-var Attacklab = Attacklab || {}
+window['Attacklab'] = window['Attacklab'] || {};
 
 //
 // Showdown namespace
 //
-Attacklab.showdown = Attacklab.showdown || {}
+window['Attacklab']['showdown'] = window['Attacklab']['showdown'] || {};
 
-//
-// converter
-//
-// Wraps all "globals" so that the only thing
-// exposed is makeHtml().
-//
-Attacklab.showdown.converter = function() {
+/**
+ * Markdown converter
+ *
+ * Wraps all 'globals' so that the only public function is `makeHtml()`
+ *
+ * @constructor
+ */
+window['Attacklab']['showdown']['converter'] = function () {
 
 //
 // Globals:
@@ -92,8 +93,7 @@ var g_html_blocks;
 // (see _ProcessListItems() for details):
 var g_list_level = 0;
 
-
-this.makeHtml = function(text) {
+this['makeHtml'] = function(text) {
 //
 // Main function. The order in which other subs are called here is
 // essential. Link and image substitutions need to happen before
@@ -1308,9 +1308,9 @@ var escapeCharacters_callback = function(wholeMatch,m1) {
 
 // Version 0.9 used the Showdown namespace instead of Attacklab.showdown
 // The old namespace is deprecated, but we'll support it for now:
-var Showdown = Attacklab.showdown;
+window['Showdown'] = window['Attacklab']['showdown'];
 
 // If anyone's interested, tell the world that this file's been loaded
-if (Attacklab.fileLoaded) {
-    Attacklab.fileLoaded("showdown.js");
+if (window['Attacklab']['fileLoaded']) {
+    window['Attacklab']['fileLoaded']("showdown.js");
 }
