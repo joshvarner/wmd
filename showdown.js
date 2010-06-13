@@ -1219,7 +1219,7 @@ var _UnescapeSpecialChars = function(text) {
 //
     text = text.replace(/~E(\d+)E/g,
         function(wholeMatch,m1) {
-            var charCodeToReplace = parseInt(m1);
+            var charCodeToReplace = parseInt(m1, 10);
             return String.fromCharCode(charCodeToReplace);
         }
     );
